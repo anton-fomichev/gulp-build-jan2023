@@ -1,9 +1,29 @@
-@import 'components/test';
+@import 'components/author';
 
-body {
-  margin: 0 auto;
-  color: red;
-  padding-top: 20px;
-  bottom: 20px;
-  border-radius: 20%;
+*, *::after, *::before{
+  box-sizing: border-box;
+}
+
+body{
+  font-family: 'Ubuntu', sans-serif;
+  padding: 20px;
+  margin: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #96c6f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+h1{
+  color: rgb(31, 7, 68);
+  font-size: 6vw;
+}
+
+@media (max-width: 1024px){
+  h1{
+    font-size: 6vh;
+  }
 }

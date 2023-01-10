@@ -65,6 +65,7 @@ const html = () => {
         root: SRC_PATH,
         layouts: SRC_PATH + 'templates/layouts/',
         partials: SRC_PATH + 'templates/partials/',
+        data: SRC_PATH + 'templates/data/',
       })
     )
     .pipe(dest(PATH.build.html))

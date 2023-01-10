@@ -1,30 +1,30 @@
-# Тестовая Gulp сборка
+# Gulp test build
 
-## Используемые модули
+## Modules used
 
-- ### gulp-autoprefixer
+- ### [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer)
   автоматически ставит нужные префиксы в css (webkit, mozila etc)
-- ### gulp-cssbeautify
+- ### [gulp-cssbeautify](https://www.npmjs.com/package/gulp-cssbeautify)
   редактирует стиль кода css
-- ### gulp-cssnano
+- ### [gulp-cssnano](https://www.npmjs.com/package/gulp-cssnano)
   сжимает css файл (делает его размером в 1 строку)
-- ### gulp-rename
-  ставит префиксы к именам файлов
-- ### gulp-sass
+- ### [gulp-rename](https://www.npmjs.com/package/gulp-rename)
+  позволяет переименовывать файлы
+- ### [gulp-sass](https://www.npmjs.com/package/gulp-sass)
   позволяет работать с sass
-- ### gulp-strip-css-comments
+- ### [gulp-strip-css-comments](https://www.npmjs.com/package/gulp-strip-css-comments)
   убирает комментарии в css
-- ### gulp-rigger
+- ### [gulp-rigger](https://www.npmjs.com/package/gulp-rigger)
   позволяет склеивать JS файлы
-- ### gulp-uglify
+- ### [gulp-uglify](https://www.npmjs.com/package/gulp-uglify)
   сжимает js файл (делает его размером в 1 строку)
-- ### gulp-plumber
+- ### [gulp-plumber](https://www.npmjs.com/package/gulp-plumber)
   gulp продолжает работать даже при возникновении ошибок
-- ### gulp-imagemin (откат до версии 7.1.0)
+- ### [gulp-imagemin@7.1.0](https://www.npmjs.com/package/gulp-imagemin)
   сжимает изображения
-- ### del (откат до версии 6.0.0)
+- ### [del@6.0.0](https://www.npmjs.com/package/del)
   удаляет файлы
-- ### panini
+- ### [panini](https://www.npmjs.com/package/panini)
   для создания html шаблонов
-- ### browser-sync
+- ### [browser-sync](https://www.npmjs.com/package/browser-sync)
   для запуска локального сервера

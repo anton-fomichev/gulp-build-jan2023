@@ -14,6 +14,7 @@ const panini = require('panini');
 const imagemin = require('gulp-imagemin');
 const del = require('del');
 const gulpRigger = require('gulp-rigger');
+const gulpNotify = require('gulp-notify');
 const browserSync = require('browser-sync').create();
 
 const SRC_PATH = 'src/';
@@ -44,14 +45,26 @@ const PATH = {
   clean: `./${DIST_PATH}`,
 };
 
+const onGulpError = (err) => {
+  gulpNotify.onError({
+    title: 'Gulp',
+    subtitle: 'Failure!',
+    message: 'Error: <%= error.message %>',
+    sound: 'Beep',
+  })(err);
+
+  this.emit('end');
+};
+
 const html = () =>
   src(PATH.src.html, { base: SRC_PATH })
-    .pipe(plumber())
-    .pipe(dest(PATH.build.html));
+    .pipe(plumber({ errorHandler: onGulpError }))
+    .pipe(dest(PATH.build.html))
+    .pipe(browserSync.reload({ stream: true }));
 
 const styles = () =>
   src(PATH.src.styles, { base: SRC_PATH + 'assets/styles/' })
-    .pipe(plumber())
+    .pipe(plumber({ errorHandler: onGulpError }))
     .pipe(sass())
     .pipe(autoPrefixer())
     .pipe(cssBeautify())
@@ -71,11 +84,12 @@ const styles = () =>
         extname: '.css',
       })
     )
-    .pipe(dest(PATH.build.styles));
+    .pipe(dest(PATH.build.styles))
+    .pipe(browserSync.reload({ stream: true }));
 
 const scripts = () =>
   src(PATH.src.scripts, { base: SRC_PATH + 'assets/scripts/' })
-    .pipe(plumber())
+    .pipe(plumber({ errorHandler: onGulpError }))
     .pipe(gulpRigger())
     .pipe(dest(PATH.build.scripts))
     .pipe(uglify())
@@ -85,7 +99,8 @@ const scripts = () =>
         extname: '.js',
       })
     )
-    .pipe(dest(PATH.build.scripts));
+    .pipe(dest(PATH.build.scripts))
+    .pipe(browserSync.reload({ stream: true }));
 
 const images = () =>
   src(PATH.src.images, { base: SRC_PATH + 'assets/images' })
@@ -99,11 +114,15 @@ const images = () =>
         }),
       ])
     )
-    .pipe(dest(PATH.build.images));
+    .pipe(dest(PATH.build.images))
+    .pipe(browserSync.reload({ stream: true }));
 
 const clean = () => del(PATH.clean);
 
-const fonts = () => src(PATH.src.fonts, { base: SRC_PATH + 'assets/fonts/' });
+const fonts = () =>
+  src(PATH.src.fonts, { base: SRC_PATH + 'assets/fonts/' }).pipe(
+    browserSync.reload({ stream: true })
+  );
 
 const watchFiles = () => {
   gulp.watch([PATH.watch.html], html);
@@ -113,11 +132,19 @@ const watchFiles = () => {
   gulp.watch([PATH.watch.fonts], fonts);
 };
 
+const serve = () => {
+  browserSync.init({
+    server: {
+      baseDir: './' + DIST_PATH,
+    },
+  });
+};
+
 const build = gulp.series(
   clean,
   gulp.parallel(html, styles, scripts, images, fonts)
 );
-const watch = gulp.parallel(build, watchFiles);
+const watch = gulp.parallel(build, watchFiles, serve);
 
 exports.html = html;
 exports.styles = styles;
@@ -127,3 +154,4 @@ exports.clean = clean;
 exports.fonts = fonts;
 exports.build = build;
 exports.watch = watch;
+exports.default = watch;

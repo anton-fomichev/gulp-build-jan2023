@@ -56,11 +56,20 @@ const onGulpError = (err) => {
   this.emit('end');
 };
 
-const html = () =>
-  src(PATH.src.html, { base: SRC_PATH })
+const html = () => {
+  panini.refresh();
+  return src(PATH.src.html, { base: SRC_PATH })
     .pipe(plumber({ errorHandler: onGulpError }))
+    .pipe(
+      panini({
+        root: SRC_PATH,
+        layouts: SRC_PATH + 'templates/layouts/',
+        partials: SRC_PATH + 'templates/partials/',
+      })
+    )
     .pipe(dest(PATH.build.html))
     .pipe(browserSync.reload({ stream: true }));
+};
 
 const styles = () =>
   src(PATH.src.styles, { base: SRC_PATH + 'assets/styles/' })

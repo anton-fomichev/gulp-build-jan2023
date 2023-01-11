@@ -28,3 +28,5 @@
   для создания html шаблонов
 - ### [browser-sync](https://www.npmjs.com/package/browser-sync)
   для запуска локального сервера
+- ### [gulp-webp](https://www.npmjs.com/package/gulp-webp)
+  конвертация изображений в формат webp

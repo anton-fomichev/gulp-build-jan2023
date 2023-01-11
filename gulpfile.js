@@ -16,6 +16,7 @@ const del = require('del');
 const gulpRigger = require('gulp-rigger');
 const gulpNotify = require('gulp-notify');
 const browserSync = require('browser-sync').create();
+const webp = require('gulp-webp');
 
 const SRC_PATH = 'src/';
 const DIST_PATH = 'dist/';
@@ -124,6 +125,7 @@ const images = () =>
         }),
       ])
     )
+    .pipe(webp())
     .pipe(dest(PATH.build.images))
     .pipe(browserSync.reload({ stream: true }));
 

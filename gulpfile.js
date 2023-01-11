@@ -17,6 +17,7 @@ const gulpRigger = require('gulp-rigger');
 const gulpNotify = require('gulp-notify');
 const browserSync = require('browser-sync').create();
 const webp = require('gulp-webp');
+const eslint = require('gulp-eslint');
 
 const SRC_PATH = 'src/';
 const DIST_PATH = 'dist/';
@@ -136,6 +137,13 @@ const fonts = () =>
     browserSync.reload({ stream: true })
   );
 
+const lint = () =>
+  src(PATH.watch.scripts, { base: SRC_PATH + 'assets/scripts/' })
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+
+
 const watchFiles = () => {
   gulp.watch([PATH.watch.html], html);
   gulp.watch([PATH.watch.styles], styles);
@@ -154,9 +162,10 @@ const serve = () => {
 
 const build = gulp.series(
   clean,
-  gulp.parallel(html, styles, scripts, images, fonts)
+  gulp.parallel(html, styles, lint, scripts, images, fonts)
 );
 const watch = gulp.parallel(build, watchFiles, serve);
+const lintTests = gulp.parallel(lint);
 
 exports.html = html;
 exports.styles = styles;
@@ -164,6 +173,7 @@ exports.scripts = scripts;
 exports.images = images;
 exports.clean = clean;
 exports.fonts = fonts;
+exports.lint = lintTests;
 exports.build = build;
 exports.watch = watch;
 exports.default = watch;
